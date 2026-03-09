@@ -1,0 +1,269 @@
+:root {
+  --bg-dark: #17181f;
+  --bg-mid: #1f2129;
+  --ink: #eceef4;
+  --muted: #a5abb8;
+  --accent: #ffd42a;
+  --light-square: #dbc8a4;
+  --dark-square: #b08762;
+  --last-move: #7c9f0f;
+  --panel-line: #2c2f3a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: linear-gradient(160deg, #0f1117 0%, #191c24 70%, #14171f 100%);
+  color: var(--ink);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  overflow: hidden;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #13151b 0%, #1a1d24 100%);
+  border-right: 1px solid var(--panel-line);
+  padding: 1rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-height: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar h1 {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: 0.3px;
+}
+
+.controls {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.fen-tools {
+  display: grid;
+  gap: 0.5rem;
+}
+
+textarea {
+  border: 1px solid #3a3f4c;
+  border-radius: 10px;
+  background: #222531;
+  color: var(--ink);
+  padding: 0.6rem 0.7rem;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.fen-actions {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+select,
+input,
+button {
+  border: 1px solid #3a3f4c;
+  border-radius: 10px;
+  background: #222531;
+  color: var(--ink);
+  padding: 0.6rem 0.7rem;
+  font-size: 0.97rem;
+}
+
+button {
+  background: #313648;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.08);
+}
+
+.history {
+  border-top: 1px solid var(--panel-line);
+  padding-top: 0.6rem;
+  display: grid;
+  gap: 0.45rem;
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.move-item {
+  background: #232631;
+  border: 1px solid #2f3442;
+  border-radius: 10px;
+  padding: 0.55rem 0.6rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.move-head {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.move-text {
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.game-area {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-width: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.board {
+  width: min(calc(100vh - 130px), calc(100vw - 340px));
+  height: min(calc(100vh - 130px), calc(100vw - 340px));
+  max-width: 980px;
+  max-height: 980px;
+  margin: 14px auto 8px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  border: 2px solid #2d2f36;
+}
+
+.square {
+  position: relative;
+  display: grid;
+  place-items: center;
+  font-size: clamp(34px, 4.8vw, 66px);
+  user-select: none;
+}
+
+.square.light {
+  background: var(--light-square);
+}
+
+.square.dark {
+  background: var(--dark-square);
+}
+
+.square.last {
+  box-shadow: inset 0 0 0 9999px color-mix(in oklab, var(--last-move) 58%, transparent);
+}
+
+.square.selected {
+  outline: 3px solid #39bdf8;
+  outline-offset: -3px;
+}
+
+.coord {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  font-size: clamp(11px, 1vw, 18px);
+  color: rgba(22, 22, 22, 0.36);
+  font-weight: 700;
+}
+
+.piece {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: element;
+  cursor: grab;
+}
+
+.game-bar {
+  border-top: 1px solid var(--panel-line);
+  background: linear-gradient(180deg, #171920 0%, #12141a 100%);
+  padding: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.move-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.move-form label {
+  grid-column: 1 / -1;
+}
+
+.status-wrap {
+  display: grid;
+  align-content: center;
+}
+
+#status {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.fen {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  word-break: break-all;
+}
+
+@media (max-width: 1040px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 290px 1fr;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--panel-line);
+    height: auto;
+    overflow: visible;
+  }
+
+  .board {
+    width: min(calc(100vw - 16px), calc(100vh - 420px));
+    height: min(calc(100vw - 16px), calc(100vh - 420px));
+    min-width: 300px;
+    min-height: 300px;
+  }
+
+  .game-bar {
+    grid-template-columns: 1fr;
+    position: static;
+  }
+
+  .game-area {
+    height: auto;
+    overflow: visible;
+  }
+}
