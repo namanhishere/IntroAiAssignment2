@@ -28,6 +28,18 @@ npm start
 
 Open: `http://localhost:3000`
 
+## Run with Docker
+
+Build and run:
+
+```bash
+docker compose up --build
+```
+
+Then open:
+
+`http://localhost:3000`
+
 ## API Endpoints
 
 - `POST /api/games` create game
