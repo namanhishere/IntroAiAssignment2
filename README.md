@@ -1,6 +1,6 @@
 # Online Chess vs AI (Express + Custom UI)
 
-An online chess game where **Player 1 (you, White)** plays against AI agents with multiple difficulty levels.
+An online chess game where you play against AI agents with multiple difficulty levels and can choose to play as White or Black.
 
 ## Features
 
@@ -11,17 +11,20 @@ An online chess game where **Player 1 (you, White)** plays against AI agents wit
   - Medium
   - Hard
   - Expert
+- Play as White or Black
+- Opponent types: Minimax AI or random rule-based agent
 - Legal move validation, checkmate/stalemate detection
 - New game + update difficulty during play
 - Type moves directly (`e2e4`, `e7e8q`)
 - Supports SAN/algebraic moves (`e4`, `Nf3`, `O-O`)
 - Copy and load board state via FEN
 - Scrollable move history panel
+- Evaluation runner for AI vs random agent (both sides)
 
 ## Setup
 
 ```bash
-cd /home/namanhishere/introAi2
+cd IntroAiAssignment2
 npm install
 npm start
 ```
@@ -49,6 +52,30 @@ Then open:
 - `PATCH /api/games/:id/difficulty` change difficulty
 - `PATCH /api/games/:id/fen` load game from FEN
 - `DELETE /api/games/:id` delete game
+- `POST /api/evaluate` run AI vs random evaluation
+
+### Create game body
+
+```json
+{
+  "difficulty": "medium",
+  "playerColor": "w",
+  "aiType": "minimax"
+}
+```
+
+- `playerColor`: `w` or `b`
+- `aiType`: `minimax` or `random`
+
+### Evaluation
+
+Runs the minimax AI against the random agent as both White and Black.
+
+```bash
+curl -X POST http://localhost:3000/api/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{"gamesPerSide":10,"difficulty":"expert"}'
+```
 
 ## Tech
 

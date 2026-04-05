@@ -30,6 +30,10 @@ body {
   overflow: hidden;
 }
 
+.layout.is-hidden {
+  display: none;
+}
+
 .sidebar {
   background: linear-gradient(180deg, #13151b 0%, #1a1d24 100%);
   border-right: 1px solid var(--panel-line);
@@ -56,6 +60,259 @@ body {
 .fen-tools {
   display: grid;
   gap: 0.5rem;
+}
+
+.evaluation {
+  border-top: 1px solid var(--panel-line);
+  padding-top: 0.6rem;
+  display: grid;
+  gap: 0.5rem;
+  min-height: 0;
+  max-height: 48vh;
+  overflow-y: auto;
+}
+
+.evaluation h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.eval-result {
+  background: #232631;
+  border: 1px solid #2f3442;
+  border-radius: 10px;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: pre-line;
+  min-height: 60px;
+}
+
+.eval-games {
+  border-top: 1px solid var(--panel-line);
+  padding-top: 0.6rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.eval-games-head {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.eval-games-head h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.eval-games-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.eval-games-list {
+  display: grid;
+  gap: 0.45rem;
+  max-height: 210px;
+  overflow-y: auto;
+}
+
+.eval-game-link {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.4rem;
+  text-decoration: none;
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  background: #242734;
+  border: 1px solid #2f3442;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.eval-game-link:hover {
+  filter: brightness(1.08);
+}
+
+.eval-game-title {
+  font-weight: 700;
+}
+
+.eval-game-tag {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.eval-game-result {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid #3a3f4c;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.eval-game-result.win {
+  color: #71e28f;
+  border-color: rgba(113, 226, 143, 0.6);
+}
+
+.eval-game-result.loss {
+  color: #ff8b8b;
+  border-color: rgba(255, 139, 139, 0.6);
+}
+
+.eval-game-result.draw {
+  color: #c6cbd6;
+  border-color: rgba(198, 203, 214, 0.6);
+}
+
+.eval-game-viewer {
+  display: grid;
+  gap: 0.55rem;
+  background: #1c1f28;
+  border: 1px solid #2f3442;
+  border-radius: 14px;
+  padding: 0.6rem;
+}
+
+.eval-board {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  border: 2px solid #2d2f36;
+  margin: 0 auto;
+}
+
+.eval-board .coord {
+  font-size: 0.55rem;
+  opacity: 0.55;
+}
+
+.eval-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+#evalMoveCounter {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.eval-game-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.eval-move-log {
+  display: grid;
+  gap: 0.35rem;
+  max-height: 280px;
+  overflow-y: auto;
+  font-size: 0.82rem;
+}
+
+.eval-move-row {
+  display: grid;
+  grid-template-columns: 26px 1fr 1fr;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.eval-move-no {
+  color: var(--muted);
+}
+
+.eval-move {
+  padding: 0.15rem 0.35rem;
+  border-radius: 6px;
+  background: #222531;
+  border: 1px solid transparent;
+}
+
+.eval-move.current {
+  border-color: #39bdf8;
+  box-shadow: inset 0 0 0 1px rgba(57, 189, 248, 0.4);
+}
+
+.is-hidden {
+  display: none;
+}
+
+.test-page {
+  display: grid;
+  gap: 1.2rem;
+  padding: 3rem 1.5rem;
+  min-height: 100vh;
+  align-content: center;
+  justify-items: center;
+}
+
+.test-header {
+  display: grid;
+  gap: 0.5rem;
+  align-items: start;
+  grid-template-columns: auto 1fr;
+  width: min(92vw, 760px);
+}
+
+.test-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.test-back {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.test-back:hover {
+  filter: brightness(1.1);
+}
+
+.test-status {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.test-body {
+  display: grid;
+  gap: 0.9rem;
+  width: min(92vw, 760px);
+  padding: 1.2rem 1.25rem;
+  border-radius: 18px;
+  background: #1c1f28;
+  border: 1px solid #2f3442;
+  box-shadow: 0 20px 35px rgba(6, 9, 16, 0.35);
+  grid-template-columns: minmax(320px, 420px) minmax(260px, 1fr);
+  align-items: start;
+}
+
+.test-board {
+  display: grid;
+  justify-items: center;
+}
+
+.test-moves {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+}
+
+@media (max-width: 860px) {
+  .test-body {
+    grid-template-columns: 1fr;
+  }
 }
 
 textarea {

@@ -2,139 +2,39 @@ const express = require("express");
 const path = require("path");
 const { randomUUID } = require("crypto");
 const { Chess } = require("chess.js");
+const { difficultyConfig, aiTypes, pickAgentMove } = require("./logic/ai");
+const { serializeGame } = require("./logic/game");
+const { runSingleGame, runSingleGameDetailed, tallyResult } = require("./logic/evaluation");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "127.0.0.1";
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"), { index: false }));
 
 const games = new Map();
-
-const pieceValue = {
-  p: 100,
-  n: 320,
-  b: 330,
-  r: 500,
-  q: 900,
-  k: 20000,
+const lastEvaluation = {
+  games: [],
+  updatedAt: 0,
 };
 
-const difficultyConfig = {
-  easy: { depth: 1, randomness: 0.7 },
-  medium: { depth: 2, randomness: 0.25 },
-  hard: { depth: 3, randomness: 0.08 },
-  expert: { depth: 4, randomness: 0.02 },
-};
-
-function evaluateBoard(chess) {
-  const board = chess.board();
-  let total = 0;
-
-  for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 8; col++) {
-      const piece = board[row][col];
-      if (!piece) continue;
-      const value = pieceValue[piece.type] || 0;
-      total += piece.color === "w" ? value : -value;
-    }
-  }
-
-  return total;
-}
-
-function minimax(chess, depth, alpha, beta, isMaximizing) {
-  if (depth === 0 || chess.isGameOver()) {
-    return evaluateBoard(chess);
-  }
-
-  const moves = chess.moves();
-
-  if (isMaximizing) {
-    let maxEval = -Infinity;
-    for (const move of moves) {
-      chess.move(move);
-      const evalScore = minimax(chess, depth - 1, alpha, beta, false);
-      chess.undo();
-
-      if (evalScore > maxEval) maxEval = evalScore;
-      if (evalScore > alpha) alpha = evalScore;
-      if (beta <= alpha) break;
-    }
-    return maxEval;
-  }
-
-  let minEval = Infinity;
-  for (const move of moves) {
-    chess.move(move);
-    const evalScore = minimax(chess, depth - 1, alpha, beta, true);
-    chess.undo();
-
-    if (evalScore < minEval) minEval = evalScore;
-    if (evalScore < beta) beta = evalScore;
-    if (beta <= alpha) break;
-  }
-  return minEval;
-}
-
-function pickAIMove(chess, difficulty) {
-  const level = difficultyConfig[difficulty] || difficultyConfig.medium;
-  const moves = chess.moves();
-
-  if (!moves.length) return null;
-
-  if (Math.random() < level.randomness) {
-    return moves[Math.floor(Math.random() * moves.length)];
-  }
-
-  let bestMove = null;
-  let bestValue = Infinity;
-
-  for (const move of moves) {
-    chess.move(move);
-    const value = minimax(chess, level.depth - 1, -Infinity, Infinity, true);
-    chess.undo();
-
-    if (value < bestValue) {
-      bestValue = value;
-      bestMove = move;
-    }
-  }
-
-  return bestMove;
-}
-
-function gameStatus(chess) {
-  if (chess.isCheckmate()) {
-    return chess.turn() === "w" ? "Checkmate. AI wins." : "Checkmate. You win.";
-  }
-  if (chess.isDraw()) {
-    return "Draw.";
-  }
-
-  let status = chess.turn() === "w" ? "Your move (White)." : "AI thinking...";
-  if (chess.inCheck()) status += " Check!";
-  return status;
-}
-
-function serializeGame(gameId, entry) {
-  return {
-    gameId,
-    difficulty: entry.difficulty,
-    fen: entry.chess.fen(),
-    turn: entry.chess.turn(),
-    isGameOver: entry.chess.isGameOver(),
-    status: gameStatus(entry.chess),
-  };
-}
 
 app.post("/api/games", (req, res) => {
-  const difficulty = req.body?.difficulty || "medium";
+  const difficulty = difficultyConfig[req.body?.difficulty] ? req.body.difficulty : "medium";
+  const playerColor = req.body?.playerColor === "b" ? "b" : "w";
+  const aiColor = playerColor === "w" ? "b" : "w";
+  const aiType = aiTypes.has(req.body?.aiType) ? req.body.aiType : "minimax";
   const chess = new Chess();
   const gameId = randomUUID();
 
-  games.set(gameId, { chess, difficulty });
+  games.set(gameId, {
+    chess,
+    difficulty,
+    playerColor,
+    aiColor,
+    aiType,
+  });
 
   res.status(201).json(serializeGame(gameId, games.get(gameId)));
 });
@@ -155,8 +55,8 @@ app.post("/api/games/:id/move", (req, res) => {
     return res.status(400).json({ error: "Game is already over", game: serializeGame(req.params.id, entry) });
   }
 
-  if (entry.chess.turn() !== "w") {
-    return res.status(400).json({ error: "It is not White's turn", game: serializeGame(req.params.id, entry) });
+  if (entry.chess.turn() !== entry.playerColor) {
+    return res.status(400).json({ error: "It is not your turn", game: serializeGame(req.params.id, entry) });
   }
 
   let move = null;
@@ -199,11 +99,11 @@ app.post("/api/games/:id/ai-move", (req, res) => {
     return res.status(400).json({ error: "Game is already over", game: serializeGame(req.params.id, entry) });
   }
 
-  if (entry.chess.turn() !== "b") {
+  if (entry.chess.turn() !== entry.aiColor) {
     return res.status(400).json({ error: "It is not AI turn", game: serializeGame(req.params.id, entry) });
   }
 
-  const aiMove = pickAIMove(entry.chess, entry.difficulty);
+  const aiMove = pickAgentMove(entry.chess, entry.aiColor, entry.difficulty, entry.aiType);
   if (!aiMove) return res.status(400).json({ error: "No legal AI move" });
 
   const move = entry.chess.move(aiMove);
@@ -221,6 +121,112 @@ app.patch("/api/games/:id/difficulty", (req, res) => {
 
   entry.difficulty = difficulty;
   res.json(serializeGame(req.params.id, entry));
+});
+
+app.post("/api/evaluate", (req, res) => {
+  const gamesPerSide = Math.min(Math.max(Number(req.body?.gamesPerSide) || 10, 1), 50);
+  const difficulty = difficultyConfig[req.body?.difficulty] ? req.body.difficulty : "expert";
+  const includeGames = Boolean(req.body?.includeGames);
+  const maxGames = Math.min(
+    Math.max(Number(req.body?.maxGames) || gamesPerSide * 2, 1),
+    50
+  );
+
+  const results = {
+    aiWhite: { wins: 0, losses: 0, draws: 0 },
+    aiBlack: { wins: 0, losses: 0, draws: 0 },
+  };
+  const games = [];
+
+  for (let i = 0; i < gamesPerSide; i += 1) {
+    if (includeGames && games.length < maxGames) {
+      const gameWhite = runSingleGameDetailed({
+        aiColor: "w",
+        difficulty,
+        aiType: "minimax",
+      });
+      tallyResult(results.aiWhite, gameWhite.winner, "w");
+      games.push({
+        index: games.length + 1,
+        aiColor: "w",
+        winner: gameWhite.winner,
+        moves: gameWhite.moves,
+        fens: gameWhite.fens,
+        maxPliesReached: gameWhite.maxPliesReached,
+        endedByRepetition: gameWhite.endedByRepetition,
+      });
+    } else {
+      const winnerWhite = runSingleGame({ aiColor: "w", difficulty, aiType: "minimax" });
+      tallyResult(results.aiWhite, winnerWhite, "w");
+    }
+
+    if (includeGames && games.length < maxGames) {
+      const gameBlack = runSingleGameDetailed({
+        aiColor: "b",
+        difficulty,
+        aiType: "minimax",
+      });
+      tallyResult(results.aiBlack, gameBlack.winner, "b");
+      games.push({
+        index: games.length + 1,
+        aiColor: "b",
+        winner: gameBlack.winner,
+        moves: gameBlack.moves,
+        fens: gameBlack.fens,
+        maxPliesReached: gameBlack.maxPliesReached,
+        endedByRepetition: gameBlack.endedByRepetition,
+      });
+    } else {
+      const winnerBlack = runSingleGame({ aiColor: "b", difficulty, aiType: "minimax" });
+      tallyResult(results.aiBlack, winnerBlack, "b");
+    }
+  }
+
+  const overall = {
+    wins: results.aiWhite.wins + results.aiBlack.wins,
+    losses: results.aiWhite.losses + results.aiBlack.losses,
+    draws: results.aiWhite.draws + results.aiBlack.draws,
+  };
+
+  res.json({
+    gamesPerSide,
+    difficulty,
+    aiType: "minimax",
+    opponentType: "random",
+    results,
+    overall,
+    games: includeGames ? games : [],
+  });
+
+  if (includeGames) {
+    lastEvaluation.games = games;
+    lastEvaluation.updatedAt = Date.now();
+  }
+});
+
+app.get("/api/evaluate/game", (req, res) => {
+  const index = Number(req.query?.index);
+  if (!Number.isInteger(index) || index < 1) {
+    return res.status(400).json({ error: "Invalid test game index" });
+  }
+
+  const game = lastEvaluation.games[index - 1];
+  if (!game) {
+    return res.status(404).json({ error: "Test game not found. Run evaluation first." });
+  }
+
+  return res.json({
+    index,
+    updatedAt: lastEvaluation.updatedAt,
+    game,
+  });
+});
+
+app.get("/", (req, res) => {
+  if (req.query?.test) {
+    return res.sendFile(path.join(__dirname, "public", "test.html"));
+  }
+  return res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.delete("/api/games/:id", (req, res) => {

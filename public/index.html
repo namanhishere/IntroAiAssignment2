@@ -12,6 +12,18 @@
         <h1>Move History</h1>
 
         <div class="controls">
+          <label for="playerColor">You play as</label>
+          <select id="playerColor">
+            <option value="w" selected>White</option>
+            <option value="b">Black</option>
+          </select>
+
+          <label for="opponentType">Opponent</label>
+          <select id="opponentType">
+            <option value="minimax" selected>Minimax AI</option>
+            <option value="random">Random agent</option>
+          </select>
+
           <label for="difficulty">Difficulty</label>
           <select id="difficulty">
             <option value="easy">Easy</option>
@@ -33,6 +45,21 @@
           <div class="fen-actions">
             <button id="loadFenBtn" type="button">Load FEN</button>
             <button id="copyFenBtn" type="button">Copy FEN</button>
+          </div>
+        </div>
+
+        <div class="evaluation">
+          <h2>Evaluation</h2>
+          <label for="evalGames">Games per side</label>
+          <input id="evalGames" type="number" min="1" max="50" value="10" />
+          <button id="evalBtn" type="button">Run vs Random</button>
+          <div id="evalResult" class="eval-result" aria-live="polite"></div>
+          <div class="eval-games">
+            <div class="eval-games-head">
+              <h3>Test games</h3>
+              <p class="eval-games-note">Open a game to view moves.</p>
+            </div>
+            <div id="evalGamesList" class="eval-games-list" aria-live="polite"></div>
           </div>
         </div>
 

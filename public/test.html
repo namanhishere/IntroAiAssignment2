@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Game Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section id="testGamePage" class="test-page">
+      <header class="test-header">
+        <a href="/" class="test-back">Back to main</a>
+        <div>
+          <h1>Test game viewer</h1>
+          <p id="testGameStatus" class="test-status">Loading test game...</p>
+        </div>
+      </header>
+      <div class="test-body">
+        <div class="test-board">
+          <div id="evalBoard" class="eval-board" aria-label="Test game board"></div>
+        </div>
+        <div class="test-moves">
+          <div class="eval-controls">
+            <button id="evalPrev" type="button">Prev</button>
+            <span id="evalMoveCounter">Ply 0/0</span>
+            <button id="evalNext" type="button">Next</button>
+          </div>
+          <div id="evalGameMeta" class="eval-game-meta"></div>
+          <div id="evalMoveLog" class="eval-move-log"></div>
+        </div>
+      </div>
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
