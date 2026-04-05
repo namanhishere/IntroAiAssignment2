@@ -9,7 +9,11 @@
   <body>
     <main class="layout">
       <aside class="sidebar">
-        <h1>Move History</h1>
+         <div style="display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;">
+           <h1 style="margin:0;">Move History</h1>
+           <a href="/replay.html" style="font-size:0.85rem;color:var(--muted);text-decoration:none;white-space:nowrap;" title="View all 10 simulated games">&#127918; Replays</a>
+           <a href="/eval.html"   style="font-size:0.85rem;color:var(--muted);text-decoration:none;white-space:nowrap;" title="View evaluation results">&#128200; Eval</a>
+         </div>
 
         <div class="controls">
           <label for="difficulty">Difficulty</label>

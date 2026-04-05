@@ -229,6 +229,24 @@ app.delete("/api/games/:id", (req, res) => {
   res.status(204).send();
 });
 
+// Serve the generated games.json (created by run_games.js)
+app.get("/games.json", (req, res) => {
+  const gamesPath = path.join(__dirname, "games.json");
+  if (!require("fs").existsSync(gamesPath)) {
+    return res.status(404).json({ error: "games.json not found. Run: node run_games.js" });
+  }
+  res.sendFile(gamesPath);
+});
+
+// Serve the evaluation results (created by eval_games.js)
+app.get("/eval_results.json", (req, res) => {
+  const evalPath = path.join(__dirname, "eval_results.json");
+  if (!require("fs").existsSync(evalPath)) {
+    return res.status(404).json({ error: "eval_results.json not found. Run: node eval_games.js" });
+  }
+  res.sendFile(evalPath);
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });

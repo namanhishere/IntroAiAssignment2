@@ -1,0 +1,865 @@
+{
+  "generatedAt": "2026-04-05T06:42:53.572Z",
+  "gamesPerConfig": 10,
+  "categories": [
+    {
+      "id": "depth_sweep",
+      "title": "Depth Sweep",
+      "description": "Fixed randomness=0.05, varying search depth (1–3)",
+      "fixedParam": {
+        "randomness": 0.05
+      },
+      "variedParam": "depth",
+      "configs": [
+        {
+          "label": "depth=1",
+          "depth": 1,
+          "randomness": 0.05,
+          "wins": 8,
+          "losses": 0,
+          "draws": 2,
+          "winRate": 80,
+          "avgMoves": 26.9,
+          "avgTime": 127.5,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 68,
+              "totalMoves": 34,
+              "elapsedMs": 211
+            },
+            {
+              "game": 2,
+              "winner": null,
+              "resultReason": "threefold-repetition",
+              "halfMoves": 87,
+              "totalMoves": 44,
+              "elapsedMs": 243
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 64,
+              "totalMoves": 32,
+              "elapsedMs": 125
+            },
+            {
+              "game": 4,
+              "winner": null,
+              "resultReason": "threefold-repetition",
+              "halfMoves": 87,
+              "totalMoves": 44,
+              "elapsedMs": 182
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 68,
+              "totalMoves": 34,
+              "elapsedMs": 153
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 42,
+              "totalMoves": 21,
+              "elapsedMs": 70
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 44,
+              "totalMoves": 22,
+              "elapsedMs": 96
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 24,
+              "totalMoves": 12,
+              "elapsedMs": 46
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 32,
+              "totalMoves": 16,
+              "elapsedMs": 98
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 20,
+              "totalMoves": 10,
+              "elapsedMs": 51
+            }
+          ]
+        },
+        {
+          "label": "depth=2",
+          "depth": 2,
+          "randomness": 0.05,
+          "wins": 10,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 100,
+          "avgMoves": 21.2,
+          "avgTime": 1693.7,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 40,
+              "totalMoves": 20,
+              "elapsedMs": 2263
+            },
+            {
+              "game": 2,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 74,
+              "totalMoves": 37,
+              "elapsedMs": 2077
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 48,
+              "totalMoves": 24,
+              "elapsedMs": 1841
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 38,
+              "totalMoves": 19,
+              "elapsedMs": 1649
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 38,
+              "totalMoves": 19,
+              "elapsedMs": 2016
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 64,
+              "totalMoves": 32,
+              "elapsedMs": 2513
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 14,
+              "totalMoves": 7,
+              "elapsedMs": 553
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 42,
+              "totalMoves": 21,
+              "elapsedMs": 1790
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 54,
+              "totalMoves": 27,
+              "elapsedMs": 1841
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 12,
+              "totalMoves": 6,
+              "elapsedMs": 394
+            }
+          ]
+        },
+        {
+          "label": "depth=3",
+          "depth": 3,
+          "randomness": 0.05,
+          "wins": 9,
+          "losses": 0,
+          "draws": 1,
+          "winRate": 90,
+          "avgMoves": 25.5,
+          "avgTime": 18978,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 32,
+              "totalMoves": 16,
+              "elapsedMs": 19889
+            },
+            {
+              "game": 2,
+              "winner": null,
+              "resultReason": "threefold-repetition",
+              "halfMoves": 200,
+              "totalMoves": 100,
+              "elapsedMs": 41466
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 46,
+              "totalMoves": 23,
+              "elapsedMs": 20339
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 32,
+              "totalMoves": 16,
+              "elapsedMs": 10828
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 50,
+              "totalMoves": 25,
+              "elapsedMs": 17028
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 10,
+              "totalMoves": 5,
+              "elapsedMs": 3331
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 44,
+              "totalMoves": 22,
+              "elapsedMs": 16273
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 20,
+              "totalMoves": 10,
+              "elapsedMs": 6356
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 30,
+              "totalMoves": 15,
+              "elapsedMs": 21197
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 46,
+              "totalMoves": 23,
+              "elapsedMs": 33073
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "randomness_sweep",
+      "title": "Randomness Sweep",
+      "description": "Fixed depth=2, varying randomness (0–1)",
+      "fixedParam": {
+        "depth": 2
+      },
+      "variedParam": "randomness",
+      "configs": [
+        {
+          "label": "depth=2 rand=0.00",
+          "depth": 2,
+          "randomness": 0,
+          "wins": 10,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 100,
+          "avgMoves": 19.3,
+          "avgTime": 1991.3,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 28,
+              "totalMoves": 14,
+              "elapsedMs": 1698
+            },
+            {
+              "game": 2,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 58,
+              "totalMoves": 29,
+              "elapsedMs": 3150
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 46,
+              "totalMoves": 23,
+              "elapsedMs": 2290
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 52,
+              "totalMoves": 26,
+              "elapsedMs": 2167
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 22,
+              "totalMoves": 11,
+              "elapsedMs": 953
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 34,
+              "totalMoves": 17,
+              "elapsedMs": 1990
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 40,
+              "totalMoves": 20,
+              "elapsedMs": 2083
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 48,
+              "totalMoves": 24,
+              "elapsedMs": 2132
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 38,
+              "totalMoves": 19,
+              "elapsedMs": 2192
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 20,
+              "totalMoves": 10,
+              "elapsedMs": 1258
+            }
+          ]
+        },
+        {
+          "label": "depth=2 rand=0.10",
+          "depth": 2,
+          "randomness": 0.1,
+          "wins": 10,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 100,
+          "avgMoves": 24.2,
+          "avgTime": 1881.2,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 60,
+              "totalMoves": 30,
+              "elapsedMs": 2300
+            },
+            {
+              "game": 2,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 30,
+              "totalMoves": 15,
+              "elapsedMs": 1514
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 64,
+              "totalMoves": 32,
+              "elapsedMs": 2484
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 70,
+              "totalMoves": 35,
+              "elapsedMs": 2183
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 72,
+              "totalMoves": 36,
+              "elapsedMs": 2323
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 28,
+              "totalMoves": 14,
+              "elapsedMs": 1847
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 54,
+              "totalMoves": 27,
+              "elapsedMs": 1752
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 16,
+              "totalMoves": 8,
+              "elapsedMs": 585
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 54,
+              "totalMoves": 27,
+              "elapsedMs": 2185
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 36,
+              "totalMoves": 18,
+              "elapsedMs": 1639
+            }
+          ]
+        },
+        {
+          "label": "depth=2 rand=0.25",
+          "depth": 2,
+          "randomness": 0.25,
+          "wins": 10,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 100,
+          "avgMoves": 29.5,
+          "avgTime": 1799.1,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 44,
+              "totalMoves": 22,
+              "elapsedMs": 1653
+            },
+            {
+              "game": 2,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 72,
+              "totalMoves": 36,
+              "elapsedMs": 1119
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 94,
+              "totalMoves": 47,
+              "elapsedMs": 1747
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 66,
+              "totalMoves": 33,
+              "elapsedMs": 1715
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 62,
+              "totalMoves": 31,
+              "elapsedMs": 2289
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 40,
+              "totalMoves": 20,
+              "elapsedMs": 1163
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 54,
+              "totalMoves": 27,
+              "elapsedMs": 1387
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 36,
+              "totalMoves": 18,
+              "elapsedMs": 1269
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 40,
+              "totalMoves": 20,
+              "elapsedMs": 2413
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 82,
+              "totalMoves": 41,
+              "elapsedMs": 3236
+            }
+          ]
+        },
+        {
+          "label": "depth=2 rand=0.50",
+          "depth": 2,
+          "randomness": 0.5,
+          "wins": 10,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 100,
+          "avgMoves": 47.6,
+          "avgTime": 2019.9,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 46,
+              "totalMoves": 23,
+              "elapsedMs": 1650
+            },
+            {
+              "game": 2,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 196,
+              "totalMoves": 98,
+              "elapsedMs": 2491
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 56,
+              "totalMoves": 28,
+              "elapsedMs": 1458
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 152,
+              "totalMoves": 76,
+              "elapsedMs": 2415
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 3583
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 88,
+              "totalMoves": 44,
+              "elapsedMs": 3176
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 14,
+              "totalMoves": 7,
+              "elapsedMs": 803
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 80,
+              "totalMoves": 40,
+              "elapsedMs": 2127
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 34,
+              "totalMoves": 17,
+              "elapsedMs": 1409
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 36,
+              "totalMoves": 18,
+              "elapsedMs": 1087
+            }
+          ]
+        },
+        {
+          "label": "depth=2 rand=0.75",
+          "depth": 2,
+          "randomness": 0.75,
+          "wins": 10,
+          "losses": 0,
+          "draws": 0,
+          "winRate": 100,
+          "avgMoves": 74,
+          "avgTime": 1914.6,
+          "games": [
+            {
+              "game": 1,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 68,
+              "totalMoves": 34,
+              "elapsedMs": 1524
+            },
+            {
+              "game": 2,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 44,
+              "totalMoves": 22,
+              "elapsedMs": 870
+            },
+            {
+              "game": 3,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 2260
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 146,
+              "totalMoves": 73,
+              "elapsedMs": 1244
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 102,
+              "totalMoves": 51,
+              "elapsedMs": 1463
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 176,
+              "totalMoves": 88,
+              "elapsedMs": 2620
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 110,
+              "totalMoves": 55,
+              "elapsedMs": 2607
+            },
+            {
+              "game": 8,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 84,
+              "totalMoves": 42,
+              "elapsedMs": 1631
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 2717
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 2210
+            }
+          ]
+        },
+        {
+          "label": "depth=2 rand=1.00",
+          "depth": 2,
+          "randomness": 1,
+          "wins": 6,
+          "losses": 1,
+          "draws": 3,
+          "winRate": 60,
+          "avgMoves": 110.8,
+          "avgTime": 59.8,
+          "games": [
+            {
+              "game": 1,
+              "winner": null,
+              "resultReason": "adjudicated-draw",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 112
+            },
+            {
+              "game": 2,
+              "winner": "white",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 56
+            },
+            {
+              "game": 3,
+              "winner": null,
+              "resultReason": "adjudicated-draw",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 65
+            },
+            {
+              "game": 4,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 65
+            },
+            {
+              "game": 5,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 61
+            },
+            {
+              "game": 6,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 55
+            },
+            {
+              "game": 7,
+              "winner": "black",
+              "resultReason": "adjudicated-material",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 64
+            },
+            {
+              "game": 8,
+              "winner": null,
+              "resultReason": "adjudicated-draw",
+              "halfMoves": 250,
+              "totalMoves": 125,
+              "elapsedMs": 55
+            },
+            {
+              "game": 9,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 162,
+              "totalMoves": 81,
+              "elapsedMs": 50
+            },
+            {
+              "game": 10,
+              "winner": "black",
+              "resultReason": "checkmate",
+              "halfMoves": 54,
+              "totalMoves": 27,
+              "elapsedMs": 15
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

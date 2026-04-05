@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evaluation Results — Chess AI</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* ── Page layout ─────────────────────────────────────── */
+      .eval-page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+
+      /* ── Top nav bar ─────────────────────────────────────── */
+      .eval-nav {
+        background: linear-gradient(90deg, #13151b 0%, #1a1d24 100%);
+        border-bottom: 1px solid var(--panel-line);
+        padding: 0.75rem 1.4rem;
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+        flex-wrap: wrap;
+      }
+      .eval-nav h1 {
+        margin: 0;
+        font-size: 1.2rem;
+        letter-spacing: 0.3px;
+        flex: 1;
+      }
+      .nav-link {
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .nav-link:hover { color: var(--ink); }
+
+      /* ── Main content ────────────────────────────────────── */
+      .eval-content {
+        padding: 1.6rem 1.8rem 2.4rem;
+        display: grid;
+        gap: 2.4rem;
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      /* ── Metric toggle ───────────────────────────────────── */
+      .metric-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .metric-bar span {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-right: 0.3rem;
+      }
+      .metric-btn {
+        background: #222531;
+        border: 1px solid #3a3f4c;
+        border-radius: 8px;
+        color: var(--muted);
+        padding: 0.4rem 0.9rem;
+        font-size: 0.88rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+      }
+      .metric-btn.active {
+        background: #313648;
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+      .metric-btn:hover:not(.active) { filter: brightness(1.1); }
+
+      /* ── Section card ────────────────────────────────────── */
+      .eval-section {
+        background: linear-gradient(160deg, #1a1c23 0%, #1f2230 100%);
+        border: 1px solid var(--panel-line);
+        border-radius: 14px;
+        padding: 1.4rem 1.6rem;
+        display: grid;
+        gap: 1.2rem;
+      }
+      .eval-section h2 {
+        margin: 0;
+        font-size: 1.05rem;
+        letter-spacing: 0.2px;
+      }
+      .eval-section p.desc {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.87rem;
+      }
+
+      /* ── Chart container ─────────────────────────────────── */
+      .chart-wrap {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      /* Each bar row */
+      .bar-row {
+        display: grid;
+        grid-template-columns: 110px 1fr 70px;
+        align-items: center;
+        gap: 0.7rem;
+      }
+      .bar-label {
+        font-size: 0.88rem;
+        color: var(--muted);
+        text-align: right;
+        white-space: nowrap;
+      }
+      .bar-track {
+        background: #1c1f28;
+        border-radius: 6px;
+        height: 28px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #2c2f3a;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 5px;
+        transition: width 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        min-width: 2px;
+      }
+      /* Color schemes per metric */
+      .bar-fill.metric-winrate  { background: linear-gradient(90deg, #2e7d4f, #4caf70); }
+      .bar-fill.metric-moves    { background: linear-gradient(90deg, #5c5200, #ffd42a); }
+      .bar-fill.metric-time     { background: linear-gradient(90deg, #5a2a00, #e07030); }
+      .bar-value {
+        font-size: 0.87rem;
+        font-weight: 700;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      /* ── Per-game results table ──────────────────────────── */
+      .game-table-wrap {
+        overflow-x: auto;
+        border-radius: 10px;
+        border: 1px solid var(--panel-line);
+      }
+      .game-table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.83rem;
+      }
+      .game-table th,
+      .game-table td {
+        border: 1px solid var(--panel-line);
+        padding: 0.42rem 0.65rem;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .game-table th {
+        background: #1c1f28;
+        color: var(--muted);
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+      .game-table tr:nth-child(even) td { background: #1a1d25; }
+      .win-black { color: #7ec680; font-weight: 700; }
+      .win-white { color: #e07070; font-weight: 700; }
+      .win-draw  { color: var(--accent); font-weight: 700; }
+
+      /* ── Toggle game table link ──────────────────────────── */
+      .toggle-link {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 0.83rem;
+        cursor: pointer;
+        padding: 0;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+      }
+      .toggle-link:hover { color: var(--ink); }
+
+      .config-block {
+        border: 1px solid var(--panel-line);
+        border-radius: 10px;
+        padding: 0.9rem 1rem;
+        display: grid;
+        gap: 0.7rem;
+      }
+      .config-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .config-title {
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .config-stats {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-left: auto;
+      }
+      .config-details { display: none; }
+      .config-details.open { display: block; }
+
+      /* ── Loading / error ─────────────────────────────────── */
+      .loading {
+        color: var(--muted);
+        font-size: 1rem;
+        padding: 3rem;
+        text-align: center;
+      }
+
+      @media (max-width: 680px) {
+        .eval-content { padding: 1rem; gap: 1.6rem; }
+        .bar-row { grid-template-columns: 80px 1fr 60px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="eval-page">
+      <!-- Nav -->
+      <nav class="eval-nav">
+        <h1>Evaluation Results</h1>
+        <a class="nav-link" href="/">&#9812; Play Chess</a>
+        <a class="nav-link" href="/replay.html">&#127918; Game Replays</a>
+      </nav>
+
+      <!-- Content -->
+      <div class="eval-content">
+        <!-- Metric selector -->
+        <div class="metric-bar">
+          <span>Show metric:</span>
+          <button class="metric-btn active" data-metric="winrate">Win Rate</button>
+          <button class="metric-btn"        data-metric="moves">Avg Moves</button>
+          <button class="metric-btn"        data-metric="time">Avg Time (ms)</button>
+        </div>
+
+        <!-- Sections injected by eval.js -->
+        <div id="evalSections">
+          <p class="loading" id="loadingMsg">Loading eval_results.json…</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="eval.js"></script>
+  </body>
+</html>

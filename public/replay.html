@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Replay — Chess vs AI</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* ── Replay-specific overrides ──────────────────────────── */
+      .replay-layout {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        overflow: hidden;
+      }
+
+      /* Left panel */
+      .replay-sidebar {
+        background: linear-gradient(180deg, #13151b 0%, #1a1d24 100%);
+        border-right: 1px solid var(--panel-line);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .replay-sidebar-header {
+        padding: 1rem 0.9rem 0.6rem;
+        border-bottom: 1px solid var(--panel-line);
+        flex-shrink: 0;
+      }
+
+      .replay-sidebar-header h1 {
+        margin: 0 0 0.7rem;
+        font-size: 1.3rem;
+        letter-spacing: 0.3px;
+      }
+
+      .back-link {
+        display: inline-block;
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-decoration: none;
+        margin-bottom: 0.5rem;
+      }
+      .back-link:hover { color: var(--ink); }
+
+      /* Game selector cards */
+      .game-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.6rem 0.7rem;
+        display: grid;
+        gap: 0.45rem;
+      }
+
+      .game-card {
+        background: #232631;
+        border: 1px solid #2f3442;
+        border-radius: 10px;
+        padding: 0.6rem 0.75rem;
+        cursor: pointer;
+        transition: border-color 0.15s, background 0.15s;
+        text-align: left;
+        width: 100%;
+        color: var(--ink);
+      }
+      .game-card:hover { background: #2b2f3e; }
+      .game-card.active {
+        border-color: var(--accent);
+        background: #2b2f3e;
+      }
+
+      .game-card-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0 0 0.18rem;
+      }
+      .game-card-sub {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      /* Right area */
+      .replay-area {
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        min-width: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Board wrapper — same sizing as main game */
+      .replay-board-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+        overflow: hidden;
+        padding: 14px 8px 8px;
+      }
+
+      /* Controls bar */
+      .replay-bar {
+        border-top: 1px solid var(--panel-line);
+        background: linear-gradient(180deg, #171920 0%, #12141a 100%);
+        padding: 0.75rem 1rem;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .replay-nav {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .replay-nav button {
+        min-width: 44px;
+        padding: 0.5rem 0.75rem;
+        font-size: 1.1rem;
+      }
+
+      .replay-progress {
+        text-align: center;
+      }
+
+      .move-counter {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      .move-san {
+        margin: 0.2rem 0 0;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .replay-speed {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        align-items: flex-end;
+      }
+
+      .replay-speed label {
+        font-size: 0.82rem;
+      }
+
+      .replay-speed select {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      /* Move history inside sidebar — reuse existing styles */
+      .replay-move-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.5rem 0.7rem;
+        display: grid;
+        gap: 0.35rem;
+        align-content: start;
+      }
+
+      .rmove-item {
+        background: #232631;
+        border: 1px solid #2f3442;
+        border-radius: 8px;
+        padding: 0.4rem 0.55rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.88rem;
+        cursor: pointer;
+        transition: background 0.1s;
+      }
+      .rmove-item:hover { background: #2b2f3e; }
+      .rmove-item.current {
+        border-color: var(--accent);
+        background: #2b2f3e;
+      }
+
+      .rmove-num { color: var(--muted); font-size: 0.78rem; margin-right: 0.4rem; }
+      .rmove-san { font-weight: 700; }
+      .rmove-side { color: var(--muted); font-size: 0.78rem; }
+
+      /* Summary overlay when no game selected */
+      .placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: var(--muted);
+        font-size: 1rem;
+        gap: 0.5rem;
+      }
+
+      .summary-table {
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        color: var(--ink);
+        min-width: 340px;
+      }
+      .summary-table th,
+      .summary-table td {
+        border: 1px solid var(--panel-line);
+        padding: 0.5rem 0.75rem;
+        text-align: center;
+      }
+      .summary-table th {
+        background: #1f2129;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .summary-table tr:nth-child(even) td { background: #1c1e26; }
+      .win-black { color: #7ec680; }
+      .win-white { color: #e07070; }
+      .win-draw  { color: var(--accent); }
+
+      /* Autoplay button active state */
+      button.autoplay-active {
+        background: #4c5278;
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      @media (max-width: 1040px) {
+        .replay-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: 260px 1fr;
+          height: auto;
+          min-height: 100vh;
+          overflow: visible;
+        }
+        .replay-sidebar {
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--panel-line);
+          overflow: visible;
+        }
+        .replay-area {
+          height: auto;
+          overflow: visible;
+        }
+        .replay-bar {
+          grid-template-columns: 1fr;
+        }
+        .replay-speed { align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="replay-layout">
+      <!-- ── Left: game list ─────────────────────── -->
+      <aside class="replay-sidebar">
+        <div class="replay-sidebar-header">
+          <a class="back-link" href="/">&#8592; Back to Game</a>
+          <a class="back-link" href="/eval.html">&#128200; Eval Results</a>
+          <h1>Game Replays</h1>
+          <p id="summaryLine" style="margin:0;font-size:0.83rem;color:var(--muted);">Loading…</p>
+        </div>
+        <div id="gameList" class="game-list"></div>
+      </aside>
+
+      <!-- ── Right: board + controls ─────────────── -->
+      <section class="replay-area">
+        <div class="replay-board-wrap">
+          <div id="board" class="board" role="grid" aria-label="Chess board replay"></div>
+          <div id="placeholder" class="placeholder">
+            <p>Select a game on the left to start the replay.</p>
+            <div id="summaryTableWrap"></div>
+          </div>
+        </div>
+
+        <div class="replay-bar">
+          <div class="replay-nav">
+            <button id="btnFirst" title="Go to start">&#9664;&#9664;</button>
+            <button id="btnPrev"  title="Previous move">&#9664;</button>
+            <button id="btnNext"  title="Next move">&#9654;</button>
+            <button id="btnLast"  title="Go to end">&#9654;&#9654;</button>
+            <button id="btnAuto"  title="Auto-play">&#9654;&#9646;&#9646;</button>
+          </div>
+
+          <div class="replay-progress">
+            <p id="moveCounter" class="move-counter">—</p>
+            <p id="moveSan" class="move-san"></p>
+          </div>
+
+          <div class="replay-speed">
+            <label for="speedSelect">Auto-play speed</label>
+            <select id="speedSelect">
+              <option value="1500">Slow (1.5 s)</option>
+              <option value="800" selected>Normal (0.8 s)</option>
+              <option value="400">Fast (0.4 s)</option>
+              <option value="150">Very fast (0.15 s)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="replay.js"></script>
+  </body>
+</html>
